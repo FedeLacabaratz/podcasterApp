@@ -29,7 +29,7 @@ export const getPodcastFeed = async (url) => {
     try {
         const resp = await fetch(`${url}`)
         const data = await resp.text()
-        const jsonObj = await x2js.xml2js(data).rss.channel.item;
+        const jsonObj = await x2js.xml2js(data)?.rss?.channel?.item;
         return jsonObj
     } catch (error) {
         console.log(error)

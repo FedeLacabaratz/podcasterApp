@@ -1,8 +1,8 @@
-import { makeStyles } from '@material-ui/core/styles';
 import { useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import { Header, PodcastContainer, SideCard } from '../components';
-import { getPodcastFeed } from '../helpers/getPodcasts';
 import { getPodcastsWithExpiry, setPodcastsWithExpiry } from '../hooks/useLocalStorage';
+import { getPodcastFeed } from '../helpers/getPodcasts';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const PodcastDetail = ({ podcasts, setLoading, setError }) => {
     const classes = useStyles();
-    const podcastDetail = getPodcastsWithExpiry('podcastDetail')?.[0]
+    const podcastDetail = getPodcastsWithExpiry('podcastDetail')
     const podcast = podcasts.find(p => Number(p.id) === podcastDetail?.collectionId)
 
     useEffect(() => {
@@ -23,11 +23,7 @@ export const PodcastDetail = ({ podcasts, setLoading, setError }) => {
                 setError(null);
             })
             .catch(err => setError(err))
-            .finally(() => {
-                setLoading(false)
-            });
     }, [])
-
 
     return (
         <>
@@ -39,6 +35,7 @@ export const PodcastDetail = ({ podcasts, setLoading, setError }) => {
                     <SideCard
                         podcast={podcast}
                         item={podcastDetail}
+                        setLoading={setLoading}
                     />
                 </div>
                 <div className="rightSideContainer" name="rightSideContainer">

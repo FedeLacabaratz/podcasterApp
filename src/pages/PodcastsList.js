@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from 'react-router-dom';
 import { getPodcastDetail } from '../helpers/getPodcasts';
@@ -13,7 +12,7 @@ export const PodcastsList = ({ searchResults, setLoading, setError }) => {
         let data
         getPodcastDetail(e?.target?.id)
             .then(resp => {
-                data = resp?.results
+                data = resp?.results?.[0]
                 setPodcastsWithExpiry('podcastDetail', data)
                 setError(null);
             })

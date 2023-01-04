@@ -1,6 +1,7 @@
 import InputBase from '@material-ui/core/InputBase';
 import { makeStyles } from '@material-ui/core/styles';
 import { Header } from '../components';
+import { setPodcastsWithExpiry } from '../hooks/useLocalStorage';
 import { PodcastsList } from './';
 
 const useStyles = makeStyles((theme) => ({
@@ -40,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
 
 export const HomePage = ({ setLoading, podcasts, searchResults, setSearchResults, setError }) => {
     const classes = useStyles();
-
     const handleOnInputChange = (e) => {
         const inputValue = e?.target?.value.toLowerCase()
         if (!!inputValue && !!inputValue.length) {

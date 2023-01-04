@@ -3,12 +3,12 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles({
     root: {
         height: '100%',
         width: '100%',
-        cursor: 'pointer',
         boxShadow: '0 0 10px',
         backgroundColor: 'inherit',
     },
@@ -36,6 +36,7 @@ const useStyles = makeStyles({
         justifyContent: 'center',
         alignItems: 'center',
         margin: '1rem 1rem 0 1rem',
+        cursor: 'pointer',
         paddingBottom: '1rem',
         borderBottom: '1px solid lightgray',
         '& > img': {
@@ -48,6 +49,7 @@ const useStyles = makeStyles({
     title: {
         fontSize: '0.9rem',
         textAlign: 'left',
+        cursor: 'pointer',
     },
     subtitle: {
         fontSize: '0.8rem',
@@ -59,7 +61,15 @@ const useStyles = makeStyles({
     }
 });
 
-export const SideCard = ({ podcast, item }) => {
+export const SideCard = ({ podcast, item, setLoading }) => {
+    const navigate = useNavigate();
+
+    const handleOnRerouting = (e) => {
+        e.preventDefault()
+        navigate(`/podcast/${podcast?.id}`)
+        setLoading(false)
+    }
+
     const classes = useStyles();
     return (
         <Card className={classes.root}>
@@ -70,6 +80,10 @@ export const SideCard = ({ podcast, item }) => {
                 alt={`${item?.collectionName}`}
                 image={`${item?.artworkUrl600}`}
                 title={`${item?.collectionName}`}
+                onClick={(e) => {
+                    setLoading(true)
+                    handleOnRerouting(e)
+                }}
             />
             <CardContent
                 className={classes.cardContent1}
@@ -78,7 +92,12 @@ export const SideCard = ({ podcast, item }) => {
                     className={classes.title}
                     gutterBottom
                     variant="inherit"
-                    component="h5">
+                    component="h5"
+                    onClick={(e) => {
+                        setLoading(true)
+                        handleOnRerouting(e)
+                    }}
+                    >
                     {`${item?.collectionName}`}
                 </Typography>
                 <Typography
