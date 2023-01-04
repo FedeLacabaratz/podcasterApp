@@ -1,4 +1,5 @@
-
+import X2JS from "x2js"
+const x2js = new X2JS();
 
 export const getPodcasts = async () => {
     try {
@@ -19,6 +20,17 @@ export const getPodcastDetail = async (podcastId) => {
         const resp = await fetch(`https://itunes.apple.com/lookup?id=${podcastId}`)
         const data = await resp.json()
         return data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getPodcastFeed = async (url) => {
+    try {
+        const resp = await fetch(`${url}`)
+        const data = await resp.text()
+        const jsonObj = await x2js.xml2js(data).rss.channel.item;
+        return jsonObj
     } catch (error) {
         console.log(error)
     }

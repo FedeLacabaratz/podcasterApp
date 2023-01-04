@@ -24,7 +24,8 @@ export const PodcasterApp = () => {
                         id: i?.id?.attributes?.['im:id'],
                         name: i?.['im:name']?.label,
                         image: i?.['im:image']?.map(im => (im?.label)),
-                        author: i?.['im:artist']?.label
+                        author: i?.['im:artist']?.label,
+                        summary: i?.summary?.label,
                     }
                     return obj
                 })

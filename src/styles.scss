@@ -38,41 +38,6 @@ h3 {
   margin-bottom: 5px;
 }
 
-.card-grid {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.card {
-  align-content: center;
-  align-items: center;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.03);
-  display: flex;
-  flex-direction: column;
-  height: 0%;  
-  justify-content: center;
-  margin-bottom: 20px;
-  margin-right: 20px;
-  overflow: hidden;
-}
-
-.card p {
-  background-color: white;
-  flex: 1;
-  font-size: 1.5rem;
-  margin-top: 5px;
-  padding: 5px 20px 0px 20px;
-  text-align: center;
-}
-
-.card img {
-  width: 100%;
-}
-
 ul {
   list-style: none
 }
@@ -111,9 +76,11 @@ ul {
   100% { transform: rotate(360deg); }
 }
 
-.titleSearchBar {
-  height: 7rem;
+.title {
+  height: 2rem;
   margin-bottom: 2rem;
+  border-bottom: 1px solid lightgrey;
+  text-decoration: none;
 }
 
 .podcastsList {
@@ -123,5 +90,40 @@ ul {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+  width: 100%;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.leftSideCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50rem;
+  width: 17.5%;
+}
+
+.rightSideContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: auto;
+  width: 77.5%;
+  border: 1px solid red
+}
+
+.podcastContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100%;
   width: 100%;
 }

@@ -1,107 +1,53 @@
-import React, { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import { getPodcastDetail } from '../helpers/getPodcasts';
+import { useEffect } from 'react';
+import { Header, PodcastContainer, SideCard } from '../components';
+import { getPodcastFeed } from '../helpers/getPodcasts';
+import { getPodcastsWithExpiry, setPodcastsWithExpiry } from '../hooks/useLocalStorage';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     root: {
-        height: '20rem',
-        width: '14rem',
-        marginBottom: '2rem',
+        flexGrow: 1,
     },
-    cardContent: {
-        height: '30%',
-    },
-    cardMedia: {
-        height: '70%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        '& > img': {
-            borderRadius: '10px',
-            width: '100%',
-        }
-    },
-    '& .MuiCardMedia-img': {
-        objectFit: 'contain',
-    },
-    title: {
-        fontSize: '0.725rem',
-        textAlign: 'center',
-    },
-    subtitle: {
-        fontSize: '0.8rem',
-        textAlign: 'center',
-    }
-});
+}));
 
-
-export const PodcastDetail = ({ searchResults, setLoading, setError }) => {
+export const PodcastDetail = ({ podcasts, setLoading, setError }) => {
     const classes = useStyles();
+    const podcastDetail = getPodcastsWithExpiry('podcastDetail')?.[0]
+    const podcast = podcasts.find(p => Number(p.id) === podcastDetail?.collectionId)
 
-    const [podcastDetail, setPodcastDetail] = useState(null)
-
-    const handleOnClickCard = (e) => {
-        setLoading(true);
-        getPodcastDetail(e?.target?.id)
+    useEffect(() => {
+        if (!podcastDetail) return;
+        getPodcastFeed(podcastDetail?.feedUrl)
             .then(resp => {
-                setPodcastDetail(resp?.results);
+                setPodcastsWithExpiry('podcastFeed', resp)
                 setError(null);
             })
             .catch(err => setError(err))
-            .finally(() => setLoading(false));
-    }
-    console.log(podcastDetail)
+            .finally(() => {
+                setLoading(false)
+            });
+    }, [])
+
+
     return (
         <>
-            {!!searchResults.length ?
-                searchResults.map(i => (
-                    <Card
-                        key={`${i?.id}-${uuidv4()}`}
-                        className={classes.root}
-                        onClick={(e) => {
-                            setPodcastDetail(null)
-                            handleOnClickCard(e)
-                        }}
-                    >
-                        <CardMedia
-                            id={`${i?.id}`}
-                            className={classes.cardMedia}
-                            component="img"
-                            alt={`${i?.name}`}
-                            image={`${i?.image[2]}`}
-                            title={`${i?.name}`}
-                        />
-                        <CardContent
-                            className={classes.cardContent}
-                        >
-                            <Typography
-                                className={classes.title}
-                                gutterBottom
-                                variant="inherit"
-                                component="h5">
-                                {`${i?.name.toUpperCase()}`}
-                            </Typography>
-                            <Typography
-                                className={classes.subtitle}
-                                variant="body2"
-                                color="textSecondary"
-                                component="p">
-                                {`Author: ${i?.author}`}
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                ))
-                :
-                'No se encontraron resultados'
-            }
+            <div className={classes.root} name="header">
+                <Header setLoading={setLoading} />
+            </div>
+            <div className="mainContainer" name="mainContainer">
+                <div className="leftSideCard" name="leftSideCard">
+                    <SideCard
+                        podcast={podcast}
+                        item={podcastDetail}
+                    />
+                </div>
+                <div className="rightSideContainer" name="rightSideContainer">
+                    <PodcastContainer
+                        podcast={podcast}
+                        item={podcastDetail}
+                    />
+                </div>
+            </div>
         </>
     )
 }

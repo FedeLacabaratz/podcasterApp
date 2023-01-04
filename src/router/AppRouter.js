@@ -17,8 +17,8 @@ export const AppRouter = ({ setLoading, podcasts, searchResults, setSearchResult
                         />
                     }
                 />
-                <Route path="/podcast/{podcastId}" element={<PodcastDetail />} />
-                <Route path="/podcast/{podcastId}/episode/{episodeId}" element={<EpisodeDetail />} />
+                <Route path="/podcast/:podcastId" element={<PodcastDetail podcasts={podcasts} setLoading={setLoading} setError={setError}/>} />
+                <Route path="/podcast/:podcastId/episode/:episodeId" element={<EpisodeDetail podcasts={podcasts} setLoading={setLoading}/>} />
             </Routes>
         </>
     )

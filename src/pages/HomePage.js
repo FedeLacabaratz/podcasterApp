@@ -1,29 +1,19 @@
-import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import { makeStyles } from '@material-ui/core/styles';
-import { PodcastDetail } from './';
+import { Header } from '../components';
+import { PodcastsList } from './';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1
     },
-    title: {
-        flexGrow: 1,
-        display: 'none',
-        [theme.breakpoints.up('sm')]: {
-            display: 'block',
-        },
-        color: '#4a8ce8',
-        borderBottom: '1px solid lightgrey',
-    },
     search: {
         display: 'flex',
         flexDirection: 'row',
-        marginTop: '1.5rem',
-        height: '1.5rem',
+        height: '2.3rem',
         width: '100%',
         justifyContent: 'flex-end',
-        margin: 0
+        marginBottom: '2rem',
     },
     counter: {
         display: 'flex',
@@ -67,14 +57,10 @@ export const HomePage = ({ setLoading, podcasts, searchResults, setSearchResults
 
     return (
         <>
-            <div className={`${classes.root} titleSearchBar`} name="title-searchBar">
-                <Typography
-                    className={classes.title}
-                    variant="h6"
-                    noWrap
-                >
-                    Podcaster
-                </Typography>
+            <div className={classes.root} name="header-searchBar">
+                <Header
+                    setLoading={setLoading}
+                />
                 <div className={classes.search}>
                     <div className={classes.counter}>
                         {podcasts.length}
@@ -90,13 +76,12 @@ export const HomePage = ({ setLoading, podcasts, searchResults, setSearchResults
                     />
                 </div>
             </div>
-            <div className="podcastsList" name="podcasts">
-                <PodcastDetail
-                    searchResults={searchResults}
-                    setLoading={setLoading}
-                    setError={setError}
-                />
-            </div>
+            <PodcastsList
+                podcasts={podcasts}
+                searchResults={searchResults}
+                setLoading={setLoading}
+                setError={setError}
+            />
         </>
     )
 }
